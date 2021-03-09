@@ -2,6 +2,9 @@ import { Component, Fragment } from 'react';
 
 import { connect } from 'react-redux';
 
+import moment from 'moment';
+import 'moment-duration-format';
+
 import {
   IconButton,
   List,
@@ -44,7 +47,10 @@ class TrackerList extends Component {
                       }}>
                         {tracker.name}
                       </Typography>
-                      <Typography display="inline">{tracker.startedAt}</Typography>
+                      <Typography display="inline">
+                        {moment.duration(tracker.startedAt, 'seconds')
+                          .format('HH:mm:ss')}
+                      </Typography>
                     </div>
                   }
                 />
