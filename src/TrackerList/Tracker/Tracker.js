@@ -36,6 +36,27 @@ class Tracker extends Component {
       style.color = green[500];
     }
 
+    let timeFormat;
+    if (time < 10) {
+      timeFormat = moment.duration(time, 'seconds')
+        .format('[00]:[00]:[0]s');
+    } else if (time < 60) {
+      timeFormat = moment.duration(time, 'seconds')
+        .format('[00]:[00]:ss');
+    } else if (time < 600) {
+      timeFormat = moment.duration(time, 'seconds')
+        .format('[00]:[0]m:ss');
+    } else if (time < 3600) {
+      timeFormat = moment.duration(time, 'seconds')
+        .format('[00]:mm:ss');
+    } else if (time < 36000) {
+      timeFormat = moment.duration(time, 'seconds')
+        .format('[0]h:mm:ss');
+    } else {
+      timeFormat = moment.duration(time, 'seconds')
+        .format('h:mm:ss');
+    }
+
     return (
       <ListItem style={{ paddingRight: 96 }}>
         <ListItemText
@@ -49,10 +70,7 @@ class Tracker extends Component {
                 {name}
               </Typography>
               <Typography display="inline">
-                {
-                  moment(time)
-                    .format('HH:mm:ss')
-                }
+                {timeFormat}
               </Typography>
             </div>
           }

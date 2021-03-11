@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 const initialState = {
   trackers: []
 };
@@ -35,8 +33,7 @@ export default function rootReducer(state = initialState, action) {
     case 'TICK': {
       const trackers = state.trackers.map(tracker => (tracker.id === action.payload && tracker.isPaused === false) ? {
         ...tracker,
-        startedAt: moment(tracker.startedAt)
-          .add(1, 'seconds')
+        startedAt: ++tracker.startedAt
       } : tracker);
       return {
         ...state,
