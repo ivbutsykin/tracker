@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import moment from 'moment';
+
 import { InputBase, IconButton } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 
@@ -38,7 +40,7 @@ class TrackerForm extends Component {
   handleClick = () => {
     this.props.createTracker({
       name: this.state.name,
-      startedAt: 0,
+      startedAt: moment().hours(0).minutes(0).seconds(0),
       isPaused: false,
       id: uuidv4()
     });
