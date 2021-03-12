@@ -1,8 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { InputBase, IconButton } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 
@@ -36,12 +34,7 @@ class TrackerForm extends Component {
   };
 
   handleClick = () => {
-    this.props.createTracker({
-      name: this.state.name,
-      startedAt: 0,
-      isPaused: false,
-      id: uuidv4()
-    });
+    this.props.createTracker(this.state.name);
     this.setState({ name: '' });
   };
 
@@ -54,9 +47,9 @@ class TrackerForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createTracker: tracker => dispatch({
+    createTracker: name => dispatch({
       type: 'CREATE',
-      payload: tracker
+      payload: name
     })
   };
 }

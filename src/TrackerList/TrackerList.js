@@ -14,21 +14,13 @@ class TrackerList extends Component {
     return (
       <List>
         {
-          trackers.map((tracker, index) => {
-            const {
-              name,
-              startedAt,
-              isPaused,
-              id
-            } = tracker;
-            return (
-              <Fragment key={id}>
-                <Divider/>
-                <Tracker name={name} id={id} time={startedAt} isPaused={isPaused}/>
-                {index === trackers.length - 1 && <Divider/>}
-              </Fragment>
-            );
-          })
+          trackers.map((tracker, index) => (
+            <Fragment key={tracker.id}>
+              <Divider/>
+              <Tracker tracker={tracker} />
+              {index === trackers.length - 1 && <Divider/>}
+            </Fragment>
+          ))
         }
       </List>
     );

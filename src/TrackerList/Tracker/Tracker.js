@@ -19,42 +19,22 @@ import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 class Tracker extends Component {
+
+  state = {
+    elapsedTime: this.getElapsedTime(),
+  }
+
   render() {
-    const {
-      name,
-      id,
-      time,
-      isPaused
-    } = this.props;
+    const { tracker } = this.props;
+    const { elapsedTime } = this.state;
 
     const style = {
       display: 'flex',
       justifyContent: 'space-between',
     };
 
-    if (isPaused === false) {
+    if (tracker.isPaused === false) {
       style.color = green[500];
-    }
-
-    let timeFormat;
-    if (time < 10) {
-      timeFormat = moment.duration(time, 'seconds')
-        .format('[00]:[00]:[0]s');
-    } else if (time < 60) {
-      timeFormat = moment.duration(time, 'seconds')
-        .format('[00]:[00]:ss');
-    } else if (time < 600) {
-      timeFormat = moment.duration(time, 'seconds')
-        .format('[00]:[0]m:ss');
-    } else if (time < 3600) {
-      timeFormat = moment.duration(time, 'seconds')
-        .format('[00]:mm:ss');
-    } else if (time < 36000) {
-      timeFormat = moment.duration(time, 'seconds')
-        .format('[0]h:mm:ss');
-    } else {
-      timeFormat = moment.duration(time, 'seconds')
-        .format('h:mm:ss');
     }
 
     return (
@@ -67,21 +47,24 @@ class Tracker extends Component {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis'
               }}>
-                {name}
+                {tracker.name}
               </Typography>
               <Typography display="inline">
-                {timeFormat}
+                {elapsedTime}
               </Typography>
             </div>
           }
         />
         <ListItemSecondaryAction>
-          <IconButton edge="end" style={{ color: grey[900] }}
-                      onClick={() => this.handleStop(id)}>
-            {isPaused ? <PlayCircleOutlineIcon/> : <PauseCircleOutlineIcon/>}
+          <IconButton
+            edge="end"
+            style={{ color: grey[900] }}
+            onClick={this.handleToggleClick}
+          >
+            {tracker.isPaused ? <PlayCircleOutlineIcon/> : <PauseCircleOutlineIcon/>}
           </IconButton>
           <IconButton edge="end" style={{ color: red[300] }}
-                      onClick={() => this.handleRemove(id)}>
+                      onClick={this.handleRemove}>
             <RemoveCircleOutlineIcon/>
           </IconButton>
         </ListItemSecondaryAction>
@@ -90,36 +73,56 @@ class Tracker extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.props.tickTracker(this.props.id), 1000);
+    this.intervalId = setInterval(this.updateElapsedTime, 1000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.intervalId);
   }
 
-  handleStop = id => {
-    this.props.stopTracker(id);
-  };
+  updateElapsedTime = () => {
+    this.setState({
+      elapsedTime: this.getElapsedTime(),
+    })
+  }
 
-  handleRemove = id => {
-    this.props.removeTracker(id);
+  getElapsedTime() {
+    const { tracker: { intervals } } = this.props;
+
+    const elapsedTime = intervals.reduce((acc, cur) => {
+      return acc + (cur.pausedAt || Date.now()) - cur.startedAt;
+    }, 0);
+
+    return moment.duration(elapsedTime, 'milliseconds').format('HH:mm:ss', { trim: false });
+  }
+
+  handleToggleClick = () => {
+    const { tracker } = this.props;
+
+    if (tracker.isPaused) {
+      this.props.resume(tracker.id);
+    } else  {
+      this.props.pause(tracker.id);
+    }
+  }
+
+  handleRemove = () => {
+    this.props.remove(this.props.tracker.id);
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    stopTracker: id => dispatch({
-      type: 'STOP',
+    pause: id => dispatch({
+      type: 'PAUSE',
       payload: id
     }),
-
-    removeTracker: id => dispatch({
+    resume: id => dispatch({
+      type: 'RESUME',
+      payload: id
+    }),
+    remove: id => dispatch({
       type: 'REMOVE',
-      payload: id
-    }),
-
-    tickTracker: id => dispatch({
-      type: 'TICK',
       payload: id
     }),
   };
