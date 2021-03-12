@@ -1,13 +1,15 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
+import { CREATE, REMOVE, RESUME, PAUSE } from './types';
+
 const initialState = {
   trackers: []
 };
 
-export default function rootReducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'CREATE': {
+    case CREATE: {
       return {
         ...state,
         trackers: [
@@ -24,7 +26,7 @@ export default function rootReducer(state = initialState, action) {
         ]
       };
     }
-    case 'REMOVE': {
+    case REMOVE: {
       const trackers = state.trackers.filter(tracker => tracker.id !== action.payload);
       return {
         ...state,
@@ -32,7 +34,7 @@ export default function rootReducer(state = initialState, action) {
       };
     }
 
-    case 'PAUSE': {
+    case PAUSE: {
       const trackers = state.trackers.map(tracker => {
         if (tracker.id === action.payload) {
           const intervals = [...tracker.intervals];
@@ -54,7 +56,7 @@ export default function rootReducer(state = initialState, action) {
       };
     }
 
-    case 'RESUME': {
+    case RESUME: {
       const trackers = state.trackers.map(tracker => {
         if (tracker.id === action.payload) {
           return {

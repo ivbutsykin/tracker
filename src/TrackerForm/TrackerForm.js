@@ -8,6 +8,8 @@ import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 
 import styles from './TrackerForm.module.css';
 
+import { create } from '../store/actions';
+
 class TrackerForm extends Component {
   state = {
     name: ''
@@ -34,7 +36,7 @@ class TrackerForm extends Component {
   };
 
   handleClick = () => {
-    this.props.createTracker(this.state.name);
+    this.props.create(this.state.name);
     this.setState({ name: '' });
   };
 
@@ -47,10 +49,7 @@ class TrackerForm extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createTracker: name => dispatch({
-      type: 'CREATE',
-      payload: name
-    })
+    create: name => dispatch(create(name)),
   };
 }
 

@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 
 import moment from 'moment';
+import 'moment-duration-format';
 
 import { green, grey, red } from '@material-ui/core/colors';
 
@@ -19,9 +20,16 @@ import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 class Tracker extends Component {
-
   state = {
     elapsedTime: this.getElapsedTime(),
+  };
+
+  componentDidMount() {
+    this.setupUpdateInterval();
+  }
+
+  componentWillUnmount() {
+    this.clearUpdateInterval();
   }
 
   render() {
@@ -72,19 +80,19 @@ class Tracker extends Component {
     );
   }
 
-  componentDidMount() {
+  setupUpdateInterval() {
     this.intervalId = setInterval(this.updateElapsedTime, 1000);
   }
 
-  componentWillUnmount() {
+  clearUpdateInterval() {
     clearInterval(this.intervalId);
   }
 
   updateElapsedTime = () => {
     this.setState({
       elapsedTime: this.getElapsedTime(),
-    })
-  }
+    });
+  };
 
   getElapsedTime() {
     const { tracker: { intervals } } = this.props;
@@ -93,39 +101,25 @@ class Tracker extends Component {
       return acc + (cur.pausedAt || Date.now()) - cur.startedAt;
     }, 0);
 
-    return moment.duration(elapsedTime, 'milliseconds').format('HH:mm:ss', { trim: false });
+    return moment.duration(elapsedTime, 'milliseconds')
+      .format('HH:mm:ss', { trim: false });
   }
 
   handleToggleClick = () => {
     const { tracker } = this.props;
 
     if (tracker.isPaused) {
-      this.props.resume(tracker.id);
-    } else  {
-      this.props.pause(tracker.id);
+      this.props.onResume(tracker.id);
+      this.setupUpdateInterval();
+    } else {
+      this.props.onPause(tracker.id);
+      this.clearUpdateInterval();
     }
-  }
+  };
 
   handleRemove = () => {
-    this.props.remove(this.props.tracker.id);
+    this.props.onRemove(this.props.tracker.id);
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    pause: id => dispatch({
-      type: 'PAUSE',
-      payload: id
-    }),
-    resume: id => dispatch({
-      type: 'RESUME',
-      payload: id
-    }),
-    remove: id => dispatch({
-      type: 'REMOVE',
-      payload: id
-    }),
-  };
-}
-
-export default connect(null, mapDispatchToProps)(Tracker);
+export default Tracker;

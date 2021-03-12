@@ -7,7 +7,9 @@ import TrackerList from './TrackerList/TrackerList';
 function App() {
   return (
     <Container maxWidth="sm">
-      <Header/>
+      <div style={{textAlign: 'center'}}>
+        <h1>Tracker</h1>
+      </div>
       <TrackerForm/>
       <TrackerList/>
     </Container>
