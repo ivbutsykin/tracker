@@ -1,0 +1,59 @@
+.Tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.active .content,
+.active .name {
+    color: rgb(76, 175, 80);
+}
+
+.content {
+    padding: 0 12px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.name {
+    padding-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.buttons {
+    display: flex;
+}
+
+.play_button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(33, 33, 33);
+}
+
+.remove_button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(229, 115, 115);
+}
+
+.play_button:focus {
+    outline: 0;
+}
+
+.remove_button:focus {
+    outline: 0;
+}

@@ -1,21 +1,10 @@
 import { Component } from 'react';
 
-import {
-  IconButton,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  Typography
-} from '@material-ui/core';
-
-import moment from 'moment';
 import 'moment-duration-format';
+import moment from 'moment';
+import classnames from 'classnames';
 
-import { green, grey, red } from '@material-ui/core/colors';
-
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import styles from './Tracker.module.css';
 
 class Tracker extends Component {
   state = {
@@ -39,42 +28,28 @@ class Tracker extends Component {
       justifyContent: 'space-between',
     };
 
-    if (tracker.isPaused === false) {
-      style.color = green[500];
-    }
-
     return (
-      <ListItem style={{ paddingRight: 96 }}>
-        <ListItemText
-          primary={
-            <div style={style}>
-              <Typography display="inline" style={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-              }}>
-                {tracker.name}
-              </Typography>
-              <Typography display="inline">
-                {elapsedTime}
-              </Typography>
-            </div>
-          }
-        />
-        <ListItemSecondaryAction>
-          <IconButton
-            edge="end"
-            style={{ color: grey[900] }}
-            onClick={this.handleToggleClick}
-          >
-            {tracker.isPaused ? <PlayCircleOutlineIcon/> : <PauseCircleOutlineIcon/>}
-          </IconButton>
-          <IconButton edge="end" style={{ color: red[300] }}
-                      onClick={this.handleRemove}>
-            <RemoveCircleOutlineIcon/>
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+      <div className={classnames(styles.Tracker, {
+        [styles.active]: !tracker.isPaused,
+      })}>
+        <div className={styles.content} style={style}>
+          <span className={styles.name}>{tracker.name}</span>
+          <span>{elapsedTime}</span>
+        </div>
+
+        <div className={styles.buttons}>
+          <button className={styles.play_button} style={style} onClick={this.handleToggleClick}>
+            {
+              tracker.isPaused ?
+                <span className="material-icons md-24">play_circle_outline</span> :
+                <span className="material-icons md-24">pause_circle_outline</span>
+            }
+          </button>
+          <button className={styles.remove_button} onClick={this.handleRemove}>
+            <span className="material-icons md-24">remove_circle_outline</span>
+          </button>
+        </div>
+      </div>
     );
   }
 

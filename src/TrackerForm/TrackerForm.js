@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { InputBase, IconButton } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
-
-import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
-
 import styles from './TrackerForm.module.css';
 
 import { create } from '../store/actions';
@@ -18,15 +13,18 @@ class TrackerForm extends Component {
   render() {
     const { name } = this.state;
     return (
-      <div className={styles.TrackerForm}>
-        <InputBase value={name} placeholder="Enter tracker name" style={{ flex: 1 }}
-                   onChange={this.handleChange} onKeyDown={this.handleKeyPress}/>
-        <IconButton style={{ padding: 0 }} onClick={this.handleClick}>
-          <PlayCircleFilledWhiteIcon style={{
-            color: green[500],
-            fontSize: 40,
-          }}/>
-        </IconButton>
+      <div className={styles.form}>
+        <input
+          type="text"
+          value={name}
+          className={styles.tracker_name}
+          placeholder="Enter tracker name"
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
+        />
+        <button className={styles.submit_button} onClick={this.handleClick}>
+          <span className="material-icons md-36">play_circle</span>
+        </button>
       </div>
     );
   }

@@ -15,7 +15,7 @@ export default function reducer(state = initialState, action) {
         trackers: [
           {
             id: uuidv4(),
-            name: action.payload || `Timer from ${moment().format('HH:mm:ss')}`,
+            name: action.payload.trim() || `Timer from ${moment().format('HH:mm:ss')}`,
             isPaused: false,
             intervals: [{
               startedAt: Date.now(),

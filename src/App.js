@@ -1,17 +1,17 @@
-import { Container } from '@material-ui/core';
-
 import TrackerForm from './TrackerForm/TrackerForm';
 import TrackerList from './TrackerList/TrackerList';
 
+import styles from './App.module.css';
+
 function App() {
   return (
-    <Container maxWidth="sm">
-      <div style={{textAlign: 'center'}}>
+    <div className={styles.container}>
+      <div className={styles.header}>
         <h1>Tracker</h1>
       </div>
       <TrackerForm/>
       <TrackerList/>
-    </Container>
+    </div>
   );
 }
 

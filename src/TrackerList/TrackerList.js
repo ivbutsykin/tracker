@@ -1,31 +1,28 @@
-import { Fragment } from 'react';
-
 import { connect } from 'react-redux';
 
-import { Divider, List } from '@material-ui/core';
-
 import Tracker from './Tracker/Tracker';
+
+import styles from './TrackerList.module.css';
+
 import { pause, remove, resume } from '../store/actions';
 
 function TrackerList(props) {
   const { trackers } = props;
   return (
-    <List>
+    <ul className={styles.list}>
       {
-        trackers.map((tracker, index) => (
-          <Fragment key={tracker.id}>
-            <Divider/>
+        trackers.map((tracker) => (
+          <li className={styles.list_child} key={tracker.id}>
             <Tracker
               tracker={tracker}
               onRemove={props.remove}
               onPause={props.pause}
               onResume={props.resume}
             />
-            {index === trackers.length - 1 && <Divider/>}
-          </Fragment>
+          </li>
         ))
       }
-    </List>
+    </ul>
   );
 }
 

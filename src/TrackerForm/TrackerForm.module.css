@@ -1,7 +1,31 @@
-.TrackerForm {
-    display: flex;
-    justify-content: space-between;
+.form {
+    position: relative;
+}
+
+.tracker_name {
+    box-sizing: border-box;
+    outline: none;
     border: 1px solid #C7C7C7;
     border-radius: 100px;
-    padding-left: 15px;
+    padding: 12px 45px 12px 15px;
+    width: 100%;
+}
+
+.submit_button {
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: rgb(76, 175, 80);
+}
+
+.submit_button:focus {
+    outline: 0;
 }
