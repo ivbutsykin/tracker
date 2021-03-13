@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/TrackerForm/TrackerForm.module.css"],"names":[],"mappings":"AAAA,gCACI,YAAa,CACb,6BAA8B,CAC9B,wBAAyB,CACzB,mBAAoB,CACpB,iBACJ","file":"main.8dd2ed71.chunk.css","sourcesContent":[".TrackerForm {\n    display: flex;\n    justify-content: space-between;\n    border: 1px solid #C7C7C7;\n    border-radius: 100px;\n    padding-left: 15px;\n}\n"]}
