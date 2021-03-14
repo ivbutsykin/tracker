@@ -23,22 +23,17 @@ class Tracker extends Component {
     const { tracker } = this.props;
     const { elapsedTime } = this.state;
 
-    const style = {
-      display: 'flex',
-      justifyContent: 'space-between',
-    };
-
     return (
       <div className={classnames(styles.Tracker, {
         [styles.active]: !tracker.isPaused,
       })}>
-        <div className={styles.content} style={style}>
+        <div className={styles.content}>
           <span className={styles.name}>{tracker.name}</span>
           <span>{elapsedTime}</span>
         </div>
 
         <div className={styles.buttons}>
-          <button className={styles.play_button} style={style} onClick={this.handleToggleClick}>
+          <button className={styles.play_button} onClick={this.handleToggleClick}>
             {
               tracker.isPaused ?
                 <span className="material-icons md-24">play_circle_outline</span> :
